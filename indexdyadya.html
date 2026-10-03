@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Супер-Открытка для Дяди! 💪🥃</title>
+    <!-- Сюда мы позже вставим СТИЛИ (Часть 2) -->
+    <style>
+                :root {
+            --primary: #00ff80;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: #ffffff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 255, 128, 0.15);
+            padding: 30px;
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: var(--primary);
+            margin-top: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 128, 0.3);
+        }
+        .step { display: none; }
+        .step.active { display: block; }
+        
+        button {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid var(--primary);
+            padding: 12px 20px;
+            margin: 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            background: var(--primary);
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Шаг 1: Тест */
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+        }
+
+        /* Шаг 2: Гиря */
+        .kettlebell {
+            font-size: 70px;
+            cursor: pointer;
+            display: inline-block;
+            user-select: none;
+            transition: transform 0.1s ease;
+            margin: 15px 0;
+        }
+        .kettlebell:active { transform: scale(0.8) translateY(5px); }
+        .progress-bar {
+            background: #333;
+            border-radius: 10px;
+            height: 15px;
+            width: 100%;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        /* Шаг 3: Бар */
+                /* Общая зона для бутылки и бокала */
+        /* Общая зона для бутылки и бокала */
+        .bar-zone {
+            position: relative;
+            height: 190px;
+            margin: 20px auto;
+            width: 140px; /* Оптимальная ширина для центрирования */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bottle {
+            font-size: 55px;
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+            /* Точка вращения смещена к горлышку */
+            transform-origin: 30% 20%; 
+            user-select: none;
+            margin-bottom: 35px;
+            z-index: 2;
+            /* Начальное положение чуть правее центра, чтобы компенсировать наклон */
+            transform: translateX(25px); 
+        }
+        /* Наклон, при котором горлышко остается ровно по центру над бокалом */
+        .bottle.pour { 
+            transform: translateX(25px) rotate(-65deg) translateY(-10px); 
+        }
+        .glass-container {
+            width: 65px;
+            height: 75px;
+            border: 3px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.05);
+            position: relative;
+        }
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, #d47a00, #ffaa00);
+            transition: height 3s linear;
+        }
+
+        /* Шаг 4: Финал */
+        .status-text {
+            font-size: 1.1rem;
+            color: #ffdd57;
+            margin: 15px 0;
+            min-height: 50px;
+        }
+        #runaway-btn {
+            position: relative;
+            transition: all 0.1s ease;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 id="main-title">С Днем Рождения, Дядя! 🥂</h1>
+        
+        <!-- ШАГ 1: ТЕСТ -->
+        <div id="step1" class="step active">
+            <p><strong>Уровень 1:</strong> Проверка на подлинность. Что делает дядя, когда приходит в тренажерный зал?</p>
+            <button class="quiz-option" onclick="nextStep(2, 'Сразу за железо! Правильно, настоящий кремень!')">💪 Качает суровый стальной бицепс</button>
+            <button class="quiz-option" onclick="nextStep(2, 'Спортивные тосты — тоже кардио! Отличный выбор!')">🥃 Поднимает тосты за здоровье присутствующих</button>
+            <button class="quiz-option" onclick="nextStep(2, 'Генетика и харизма решают! Зал просто замер в восторге!')">😎 Выглядит великолепно вообще без усилий</button>
+        </div>
+
+        <!-- ШАГ 2: ГИРЯ -->
+        <div id="step2" class="step">
+            <p><strong>Уровень 2:</strong> Пора размяться! Кликни по гире 10 раз, чтобы заработать праздничные калории.</p>
+            <div class="kettlebell" id="gym-item" onclick="liftWeight()">🏋️‍♂️</div>
+            <div>Повторений: <span id="lift-count" style="color:var(--primary); font-weight:bold;">0</span> / 10</div>
+            <div class="progress-bar"><div class="progress-fill" id="stage-progress"></div></div>
+        </div>
+        <!-- ШАГ 3: БАР -->
+        <div id="step3" class="step">
+            <p><strong>Уровень 3:</strong> Отличный подход! Тренировка окончена — пора наполнить праздничный бокал! Жми на бутылку.</p>
+            <div class="bar-zone">
+                <div class="bottle" id="card-bottle" onclick="pourDrink()">🍾</div>
+                <div class="glass-container">
+                    <div class="liquid" id="glass-liquid"></div>
+                </div>
+            </div>
+        </div>
+        <!-- ШАГ 4: ФИНАЛ -->
+        <div id="step4" class="step">
+            <h2 style="color: #ffdd57;">УРА! МИССИЯ ВЫПОЛНЕННА! 🎉</h2>
+            <p id="final-greeting">Ты в идеальной спортивно-отдыхающей форме! Пусть здоровье будет крепким, юмор — искрометным, а в жизни всегда балансируют крутые достижения и душевный отдых! 🥃💪</p>
+            <hr style="border-color: #444;">
+            <p>Маленькие бонусы для тебя:</p>
+            <button id="runaway-btn" onmouseover="runAway(this)" ontouchstart="runAway(this); event.preventDefault();" onclick="alert('Как ты её поймал?! Настоящая реакция качка!')">🔮 Секрет вечной молодости</button>
+            <button onclick="showBalance()">💳 Баланс карты</button>
+        </div>
+
+        <!-- ТЕКСТ ПОДСКАЗОК И ШУТОК -->
+        <div class="status-text" id="status-display">Пройди тест, чтобы начать!</div>
+    </div>
+
+    <!-- Сюда мы позже вставим СКРИПТЫ (Часть 3) -->
+    <script>
+                let liftCount = 0;
+        const gymJokes = [
+            "Мало! Дядя в твои годы жал больше! 🏋️‍♂️",
+            "Мышца пошла! Пора готовить бокалы! 🥃",
+            "Чистый анаболизм харизмы и юмора! 😎",
+            "Твой тренер тобой гордится (или завидует)! 🥇",
+            "Замечено: с каждым подъемом уровень крутизны растет! 🔥"
+        ];
+
+        function setStatus(text) {
+            document.getElementById('status-display').innerHTML = text;
+        }
+
+        function nextStep(stepNum, feedbackText) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + stepNum).classList.add('active');
+            if (feedbackText) setStatus(feedbackText);
+        }
+
+        // Логика качания гири
+        function liftWeight() {
+            if (liftCount < 10) {
+                liftCount++;
+                document.getElementById('lift-count').innerText = liftCount;
+                document.getElementById('stage-progress').style.width = (liftCount * 10) + '%';
+                
+                const gymItem = document.getElementById('gym-item');
+                gymItem.style.transform = 'scale(0.8) translateY(5px)';
+                setTimeout(() => gymItem.style.transform = 'none', 100);
+
+                if (liftCount === 10) {
+                    nextStep(3, "Штанга пожата! Переходим к коньячным процедурам! 🥂");
+                } else {
+                    gymItem.innerText = liftCount % 2 === 0 ? "💪" : "🏋️‍♂️";
+                    let jokeIndex = Math.floor(Math.random() * gymJokes.length);
+                    setStatus(gymJokes[jokeIndex]);
+                }
+            }
+        }
+
+        // Логика наливания напитка
+        function pourDrink() {
+            const bottle = document.getElementById('card-bottle');
+            const liquid = document.getElementById('glass-liquid');
+            
+            if (bottle.classList.contains('pour')) return; // Защита от повторных тапов
+            
+            bottle.classList.add('pour');
+            setStatus("Наливаем... Эликсир бодрости и богатырского здоровья поступает в систему! ⏳");
+            
+            setTimeout(() => {
+                liquid.style.height = '85%';
+            }, 100);
+
+            setTimeout(() => {
+                bottle.classList.remove('pour');
+                document.body.style.background = '#14291a'; // Праздничный фон
+                nextStep(4, "");
+                setStatus("Всё готово! С праздником! 🎉");
+            }, 3200);
+        }
+
+        // Логика убегающей кнопки
+        function runAway(btn) {
+            const card = document.querySelector('.card');
+            const maxX = (card.clientWidth / 2) - btn.clientWidth;
+            const maxY = (card.clientHeight / 3) - btn.clientHeight;
+            
+            const randomX = Math.floor((Math.random() * maxX * 2) - maxX);
+            const randomY = Math.floor((Math.random() * maxY * 2) - maxY);
+            
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            setStatus("Ой, молодость ускользает! Попробуй поймать! 🏃‍♂️💨");
+        }
+
+        // Логика кнопки баланса
+        function showBalance() {
+            alert("Ваш баланс: Здоровье — 100%, Харизма — БЕЗЛИМИТ, Крутость — Зашкаливает! 💳🔥");
+            setStatus("Здоровье и харизма — твой главный несгораемый счет!");
+        }
+    </script>
+</body>
+</html>
