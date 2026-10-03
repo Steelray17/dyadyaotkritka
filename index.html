@@ -190,7 +190,7 @@
             <p id="final-greeting">Ты в идеальной спортивно-отдыхающей форме! Пусть здоровье будет крепким, юмор — искрометным, а в жизни всегда балансируют крутые достижения и душевный отдых! 🥃💪</p>
             <hr style="border-color: #444;">
             <p>Маленькие бонусы для тебя:</p>
-            <button id="runaway-btn" onmouseover="runAway(this)" ontouchstart="runAway(this); event.preventDefault();" onclick="alert('Как ты её поймал?! Настоящая реакция качка!')">🔮 Секрет вечной молодости</button>
+            <button id="runaway-btn" onmouseover="runAway(this)" onclick="catchButton()">🔮 Секрет вечной молодости</button>
             <button onclick="showBalance()">💳 Баланс карты</button>
         </div>
 
@@ -263,7 +263,18 @@
         }
 
         // Логика убегающей кнопки
+        let runCount = 0; // Счетчик побегов кнопки
+
+        // Исправленная логика убегающей кнопки
         function runAway(btn) {
+            // Если кнопка убежала уже 3 раза, мы её больше не двигаем — даем дяде победить!
+            if (runCount >= 3) {
+                setStatus("Фух, молодость устала бегать! Нажимай! 🏃‍♂️ остановилась");
+                return;
+            }
+
+            runCount++;
+            
             const card = document.querySelector('.card');
             const maxX = (card.clientWidth / 2) - btn.clientWidth;
             const maxY = (card.clientHeight / 3) - btn.clientHeight;
@@ -272,7 +283,20 @@
             const randomY = Math.floor((Math.random() * maxY * 2) - maxY);
             
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-            setStatus("Ой, молодость ускользает! Попробуй поймать! 🏃‍♂️💨");
+            setStatus("Ой, молодость ускользает! Попробуй поймать! 🏃‍♂️💨 (Попытка " + runCount + " из 3)");
+        }
+
+        // Новая функция для клика по кнопке
+        function catchButton() {
+            // На компьютерах (при наведении) кнопка улетит, но на телефоне первый тап вызовет это действие
+            if (runCount < 3) {
+                // Если дядя умудрился нажать на телефоне раньше времени, помогаем кнопке убежать
+                runAway(document.getElementById('runaway-btn'));
+            } else {
+                // Финальный клик, когда кнопка сдалась
+                alert('Как ты её поймал?! Настоящая реакция качка! А секрет прост: спорт, хороший отдых и отличный юмор!');
+                setStatus("Секрет молодости успешно раскрыт! 🔮");
+            }
         }
 
         // Логика кнопки баланса
