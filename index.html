@@ -190,7 +190,7 @@
             <p id="final-greeting">Ты в идеальной спортивно-отдыхающей форме! Пусть здоровье будет крепким, юмор — искрометным, а в жизни всегда балансируют крутые достижения и душевный отдых! 🥃💪</p>
             <hr style="border-color: #444;">
             <p>Маленькие бонусы для тебя:</p>
-            <button id="runaway-btn" onmouseover="runAway(this)" onclick="catchButton()">🔮 Секрет вечной молодости</button>
+            <button id="runaway-btn" onclick="catchButton()">🔮 Секрет вечной молодости</button>
             <button onclick="showBalance()">💳 Баланс карты</button>
         </div>
 
@@ -200,7 +200,7 @@
 
     <!-- Сюда мы позже вставим СКРИПТЫ (Часть 3) -->
     <script>
-                let liftCount = 0;
+        let liftCount = 0;
         const gymJokes = [
             "Мало! Дядя в твои годы жал больше! 🏋️‍♂️",
             "Мышца пошла! Пора готовить бокалы! 🥃",
@@ -245,7 +245,7 @@
             const bottle = document.getElementById('card-bottle');
             const liquid = document.getElementById('glass-liquid');
             
-            if (bottle.classList.contains('pour')) return; // Защита от повторных тапов
+            if (bottle.classList.contains('pour')) return;
             
             bottle.classList.add('pour');
             setStatus("Наливаем... Эликсир бодрости и богатырского здоровья поступает в систему! ⏳");
@@ -256,45 +256,40 @@
 
             setTimeout(() => {
                 bottle.classList.remove('pour');
-                document.body.style.background = '#14291a'; // Праздничный фон
+                document.body.style.background = '#14291a';
                 nextStep(4, "");
                 setStatus("Всё готово! С праздником! 🎉");
             }, 3200);
         }
 
-        // Логика убегающей кнопки
-        let runCount = 0; // Счетчик побегов кнопки
+        // Проверяем устройство: телефон/планшет или компьютер
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // Исправленная логика убегающей кнопки
-        function runAway(btn) {
-            // Если кнопка убежала уже 3 раза, мы её больше не двигаем — даем дяде победить!
-            if (runCount >= 3) {
-                setStatus("Фух, молодость устала бегать! Нажимай! 🏃‍♂️ остановилась");
-                return;
-            }
-
-            runCount++;
-            
-            const card = document.querySelector('.card');
-            const maxX = (card.clientWidth / 2) - btn.clientWidth;
-            const maxY = (card.clientHeight / 3) - btn.clientHeight;
-            
-            const randomX = Math.floor((Math.random() * maxX * 2) - maxX);
-            const randomY = Math.floor((Math.random() * maxY * 2) - maxY);
-            
-            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-            setStatus("Ой, молодость ускользает! Попробуй поймать! 🏃‍♂️💨 (Попытка " + runCount + " из 3)");
+        // Если это компьютер — включаем функцию убегания кнопки при наведении мыши
+        if (!isMobile) {
+            document.getElementById('runaway-btn').addEventListener('mouseover', function() {
+                const btn = this;
+                const card = document.querySelector('.card');
+                const maxX = (card.clientWidth / 2) - btn.clientWidth;
+                const maxY = (card.clientHeight / 3) - btn.clientHeight;
+                
+                const randomX = Math.floor((Math.random() * maxX * 2) - maxX);
+                const randomY = Math.floor((Math.random() * maxY * 2) - maxY);
+                
+                btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                setStatus("Ой, молодость ускользает! Попробуй поймать! 🏃‍♂️💨");
+            });
         }
 
-        // Новая функция для клика по кнопке
+        // Логика при полноценном нажатии на кнопку
         function catchButton() {
-            // На компьютерах (при наведении) кнопка улетит, но на телефоне первый тап вызовет это действие
-            if (runCount < 3) {
-                // Если дядя умудрился нажать на телефоне раньше времени, помогаем кнопке убежать
-                runAway(document.getElementById('runaway-btn'));
+            if (isMobile) {
+                // На телефоне кнопка НЕ убегает, а сразу выдает секрет с первого тапа
+                alert('Секрет раскрыт! Настоящий качок берет всё с первого раза! А секрет прост: спорт, отличный отдых и крепкий юмор!');
+                setStatus("Секрет молодости успешно раскрыт! 🔮");
             } else {
-                // Финальный клик, когда кнопка сдалась
-                alert('Как ты её поймал?! Настоящая реакция качка! А секрет прост: спорт, хороший отдых и отличный юмор!');
+                // На ПК, если пользователь умудрился нажать на летящую кнопку
+                alert('Ого! Какая реакция! Настоящий киберспортсмен!');
                 setStatus("Секрет молодости успешно раскрыт! 🔮");
             }
         }
